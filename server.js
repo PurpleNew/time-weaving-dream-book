@@ -2232,7 +2232,7 @@ async function handleStaticFile(request, response) {
   }
 }
 
-const server = http.createServer(async (request, response) => {
+async function handleHttpRequest(request, response) {
   if (!request.url) {
     sendText(response, 400, "Bad Request");
     return;
@@ -2276,22 +2276,27 @@ const server = http.createServer(async (request, response) => {
   }
 
   sendText(response, 405, "Method Not Allowed");
-});
+}
+
+function createServer() {
+  return http.createServer(handleHttpRequest);
+}
 
 module.exports = {
   buildGuidedQuestionsV3,
   buildLocalGuidedAsk,
   buildLocalPlannerResponse,
+  createServer,
   buildPlannerConversationText,
   callOpenAIPlanner,
   detectPlannerCategory,
   extractLatestUserPrompt,
   extractPlannerSignals,
-  getOpenAIConfig,
-  server
+  getOpenAIConfig
 };
 
 if (require.main === module) {
+  const server = createServer();
   server.listen(PORT, HOST, () => {
     const config = getOpenAIConfig();
     console.log(`Time Dreambook server running at http://${HOST}:${PORT}`);
