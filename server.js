@@ -2283,9 +2283,11 @@ module.exports = {
   buildLocalGuidedAsk,
   buildLocalPlannerResponse,
   buildPlannerConversationText,
+  callOpenAIPlanner,
   detectPlannerCategory,
   extractLatestUserPrompt,
   extractPlannerSignals,
+  getOpenAIConfig,
   server
 };
 
