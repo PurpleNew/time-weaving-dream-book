@@ -2,6 +2,7 @@
   "name": "time-dreambook",
   "private": true,
   "version": "1.0.0",
+  "main": "server.js",
   "engines": {
     "node": "20.x"
   },

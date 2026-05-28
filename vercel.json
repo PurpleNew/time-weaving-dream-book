@@ -2,29 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "functions": {
-    "api/**/*.js": {
-      "maxDuration": 60
+    "server.js": {
+      "maxDuration": 60,
+      "includeFiles": "{index.html,styles.css,assets/**,data/**,云端羊村/**,小说/**,星梦织语/**,栩你渝生/**,比奇堡云海/**,深海传说/**,漫月云絮/**,特邀王凌睿老年干部设计/**,赛博朋克猫之城/**,*.jpg,*.png,*.webp,*.svg,*.json,*.txt,*.docx,*.md}"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/planner/status",
-      "dest": "/api/planner/status.js"
-    },
-    {
-      "src": "/api/planner",
-      "dest": "/api/planner.js"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  }
 }
