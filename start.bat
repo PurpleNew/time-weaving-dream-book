@@ -8,6 +8,6 @@ if %errorlevel%==0 (
   exit /b 0
 )
 
-start "Time Dreambook Server" cmd /k "cd /d ""%~dp0"" && node server.js"
+start "Time Dreambook Server" cmd /k "cd /d ""%~dp0"" && node lib\\planner-core.js"
 timeout /t 2 /nobreak >nul
 start "" "http://127.0.0.1:3000/"

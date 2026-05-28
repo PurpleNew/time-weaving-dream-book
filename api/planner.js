@@ -1,4 +1,4 @@
-const { callOpenAIPlanner } = require("../server");
+const { callOpenAIPlanner } = require("../lib/planner-core");
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;

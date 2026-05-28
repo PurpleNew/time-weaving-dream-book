@@ -1,4 +1,4 @@
-const { getOpenAIConfig } = require("../../server");
+const { getOpenAIConfig } = require("../../lib/planner-core");
 
 function maskSecret(secret) {
   const value = String(secret || "").trim();
