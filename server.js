@@ -367,7 +367,7 @@ function normalizeAttachments(attachments) {
     .filter(Boolean);
 }
 
-function buildAttachmentSummary(attachments) {
+function legacyBuildAttachmentSummaryV1(attachments) {
   if (!attachments.length) {
     return "";
   }
