@@ -4,5 +4,19 @@
     "api/**/*.js": {
       "maxDuration": 60
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/planner/status",
+      "destination": "/api/planner/status"
+    },
+    {
+      "source": "/api/planner",
+      "destination": "/api/planner"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
 }
