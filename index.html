@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>时间织梦簿</title>
+  <link rel="stylesheet" href="styles.css?v=20260522af">
+</head>
+<body data-view="auth">
+  <div id="introOverlay" class="intro-overlay" aria-hidden="true">
+    <div class="intro-stage">
+      <img id="introFrameA" class="intro-frame intro-frame-a" src="转场动画1.jpg" alt="">
+      <img id="introFrameB" class="intro-frame intro-frame-b" src="转场动画2.jpg" alt="">
+      <img id="introFrameC" class="intro-frame intro-frame-c" src="转场动画3.jpg" alt="">
+      <div class="intro-vignette"></div>
+    </div>
+    <div class="intro-copy">
+      <p class="intro-team">织梦者与守星人</p>
+      <h1>时间织梦簿</h1>
+      <p class="intro-tagline">把愿望织成今天就能开始的计划</p>
+    </div>
+  </div>
+
+  <button id="clockLauncher" class="clock-launcher hidden" type="button" aria-label="打开专注时钟">
+    <span class="clock-launcher-face">
+      <span id="clockLauncherHour" class="clock-hand clock-hand-hour"></span>
+      <span id="clockLauncherMinute" class="clock-hand clock-hand-minute"></span>
+      <span id="clockLauncherSecond" class="clock-hand clock-hand-second"></span>
+      <span class="clock-launcher-dot"></span>
+    </span>
+    <span class="clock-launcher-copy">
+      <strong>时光静室</strong>
+      <small>计时 / 倒计时 / 时刻</small>
+    </span>
+  </button>
+
+  <div class="app-shell">
+    <section id="authView" class="view auth-view">
+      <div class="auth-hero">
+        <p class="eyebrow">织梦者与守星人</p>
+        <p class="hero-kicker">把愿望拆成今天就能开始的一页计划</p>
+        <h1>时间织梦簿</h1>
+        <p class="hero-copy">
+          让目标像星轨一样被看见，被整理，被稳稳推进。
+        </p>
+        <div class="hero-quote">
+          <strong>打开这本簿子，先开始今天。</strong>
+        </div>
+      </div>
+
+      <div class="auth-card cloud-panel">
+        <div class="auth-card-header">
+          <p class="auth-card-brand">时间织梦簿</p>
+          <p class="eyebrow">进入你的时间云层</p>
+          <h2>先登录或注册</h2>
+          <p class="auth-intro">右侧主卡更大，整体居中，进入后直接切换到你的专属看板。</p>
+        </div>
+
+        <div class="auth-switch">
+          <button id="showLoginBtn" class="switch-btn active" type="button">登录</button>
+          <button id="showRegisterBtn" class="switch-btn" type="button">注册</button>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <h3>欢迎回来</h3>
+          <label>
+            <span>用户名</span>
+            <input id="loginUsername" type="text" placeholder="输入用户名" required>
+          </label>
+          <label>
+            <span>密码</span>
+            <input id="loginPassword" type="password" placeholder="输入密码" required>
+          </label>
+          <button class="primary-btn" type="submit">登录进入首页</button>
+        </form>
+
+        <form id="registerForm" class="auth-form hidden">
+          <h3>创建账号</h3>
+          <label>
+            <span>用户名</span>
+            <input id="registerUsername" type="text" placeholder="例如 dreamkeeper" required>
+          </label>
+          <label>
+            <span>手机号或邮箱</span>
+            <input id="registerContact" type="text" placeholder="用于后续扩展找回账号" required>
+          </label>
+          <label>
+            <span>密码</span>
+            <input id="registerPassword" type="password" placeholder="至少 6 位" required>
+          </label>
+          <button class="primary-btn" type="submit">注册并初始化数据</button>
+        </form>
+
+        <p id="authMessage" class="form-message" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="dashboardView" class="view dashboard-view hidden">
+      <header class="topbar">
+        <button id="topbarCopyToggle" class="topbar-copy topbar-copy-toggle" type="button" aria-expanded="false" aria-label="展开时间织梦簿标题卡片">
+          <p class="eyebrow">今日织梦</p>
+          <h1>时间织梦簿</h1>
+        </button>
+        <div class="topbar-filmstrip" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="topbar-meta">
+          <p id="todayDate" class="today-date"></p>
+          <p id="welcomeText" class="welcome-text"></p>
+          <button id="logoutBtn" class="ghost-btn" type="button">退出登录</button>
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section class="panel panel-side panel-suggest">
+          <div class="panel-head">
+            <div class="panel-head-copy">
+              <h2>AI 推荐任务</h2>
+              <p>优先告诉你最值得先做的一步，不要求你先设一堆复杂时间字段。</p>
+            </div>
+            <span class="panel-tag">Suggest</span>
+          </div>
+          <div id="aiSuggestionList" class="suggestion-list"></div>
+        </section>
+
+        <section class="panel panel-side panel-focus panel-today cloud-panel">
+          <div class="panel-head">
+            <div class="panel-head-copy">
+              <h2>今日日程卡片</h2>
+              <p>只保留今天真正要推进的事，减少打开应用后的犹豫。</p>
+            </div>
+            <span class="panel-tag">Today</span>
+          </div>
+          <div id="todayScheduleList" class="card-list"></div>
+        </section>
+
+        <section class="panel panel-board panel-goals">
+          <div class="panel-head">
+            <div class="panel-head-copy">
+              <h2>长线目标进度</h2>
+              <p>看板居中，让长期目标成为视觉中心，而不是沉到页面底下。</p>
+            </div>
+            <span class="panel-tag">Goals</span>
+          </div>
+
+          <div class="board-switch" role="tablist" aria-label="长线目标展示方式">
+            <button class="board-switch-btn active" type="button" data-board-view="cards">云岛卡片</button>
+            <button class="board-switch-btn" type="button" data-board-view="timeline">星轨时间轴</button>
+            <button class="board-switch-btn" type="button" data-board-view="summit">灯塔旅程</button>
+          </div>
+
+          <div id="goalList" class="goal-list"></div>
+        </section>
+      </main>
+
+      <div class="dashboard-footer">
+        <button id="newGoalBtn" class="primary-btn primary-btn-large" type="button">新建目标</button>
+      </div>
+    </section>
+
+    <section id="plannerView" class="view planner-view hidden">
+      <header class="planner-topbar">
+        <div class="planner-topbar-main">
+          <button id="backToDashboardBtn" class="ghost-btn ghost-btn-dark planner-back-btn" type="button">返回看板</button>
+          <div class="planner-topbar-copy">
+            <p class="eyebrow">AI 目标拆解</p>
+            <h1>织梦对话台</h1>
+          </div>
+        </div>
+        <div class="topbar-meta">
+          <p id="plannerDate" class="today-date"></p>
+          <p class="welcome-text">像聊天一样说出目标，AI 先拆解，再问你是否插入看板。</p>
+        </div>
+      </header>
+
+      <main class="planner-layout">
+        <section class="planner-panel planner-chat-panel">
+          <div class="panel-head">
+            <div class="panel-head-copy">
+              <h2>对话式规划</h2>
+              <p>不填起止时间，不填复杂表单，先用自然语言把事情说清楚。</p>
+            </div>
+            <span class="panel-tag panel-tag-dark">Chat</span>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-action" type="button" data-prompt="我想在两周内完成网页比赛 Demo，还要兼顾课程复习。">比赛 Demo + 课程复习</button>
+            <button class="quick-action" type="button" data-prompt="我想准备英语四级，距离考试还有一个月。">英语四级冲刺</button>
+            <button class="quick-action" type="button" data-prompt="我想把时间织梦簿继续做成可以安装到手机上的 PWA。">PWA 升级计划</button>
+          </div>
+
+          <div id="plannerChatList" class="chat-list"></div>
+
+          <form id="plannerForm" class="planner-form">
+            <label class="planner-input-wrap">
+              <span>告诉 AI 你现在想完成什么</span>
+              <textarea id="plannerInput" rows="4" placeholder="例如：我想在 10 天内完成比赛网页首页、登录页和 AI 任务拆解流程。"></textarea>
+            </label>
+            <div class="planner-attachment-panel">
+              <input
+                id="plannerAttachmentsInput"
+                class="planner-attachments-input"
+                type="file"
+                accept="image/*,.pdf,.docx,.txt,.md,.json,.csv"
+                multiple
+              >
+              <div class="planner-attachment-toolbar">
+                <label for="plannerAttachmentsInput" class="secondary-btn planner-attachment-trigger">添加图片或文件</label>
+                <button id="plannerAttachmentClearBtn" class="ghost-btn ghost-btn-dark planner-attachment-clear" type="button">清空附件</button>
+              </div>
+              <div id="plannerAttachmentList" class="planner-attachment-list" aria-live="polite"></div>
+            </div>
+            <div class="planner-form-actions">
+              <p class="planner-note">当前默认调用真实模型进行拆解；如果本地服务暂时不可用，会自动回退到本地规则兜底。</p>
+              <button id="plannerSubmitBtn" class="primary-btn" type="submit">发送给 AI</button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="planner-panel planner-draft-panel cloud-panel">
+          <div class="panel-head">
+            <div class="panel-head-copy">
+              <h2>本次计划草案</h2>
+              <p>AI 会先在这里整理一版结构化草案，再由你决定要不要进入首页看板。</p>
+            </div>
+            <span class="panel-tag panel-tag-dark">Draft</span>
+          </div>
+          <div id="plannerDraftView" class="draft-view"></div>
+        </aside>
+      </main>
+    </section>
+
+    <section id="clockView" class="view clock-view hidden">
+      <header class="clock-topbar">
+        <div class="clock-topbar-main">
+          <button id="backFromClockBtn" class="ghost-btn ghost-btn-dark planner-back-btn" type="button">返回</button>
+          <div class="planner-topbar-copy">
+            <p class="eyebrow">静心时刻</p>
+            <h1>时光静室</h1>
+          </div>
+        </div>
+        <div class="topbar-meta">
+          <p id="clockPageDate" class="today-date"></p>
+          <p class="welcome-text">让时间安静地流动，你只需要把注意力放回当下。</p>
+        </div>
+      </header>
+
+      <main class="clock-layout">
+        <section class="clock-panel clock-focus-panel cloud-panel">
+          <div class="clock-mode-switch" role="tablist" aria-label="时钟模式">
+            <button class="clock-mode-btn active" type="button" data-clock-mode="time">当前时刻</button>
+            <button class="clock-mode-btn" type="button" data-clock-mode="countdown">倒计时</button>
+            <button class="clock-mode-btn" type="button" data-clock-mode="stopwatch">正计时</button>
+          </div>
+
+          <div class="clock-focus-stage">
+            <div class="clock-halo clock-halo-a"></div>
+            <div class="clock-halo clock-halo-b"></div>
+            <div class="clock-display-shell">
+              <p id="clockModeLabel" class="clock-mode-label">当前时刻</p>
+              <div id="clockPrimaryDisplay" class="clock-primary-display">00:00:00</div>
+              <p id="clockSecondaryDisplay" class="clock-secondary-display">给今天留一块不被打扰的时间。</p>
+            </div>
+          </div>
+
+          <div id="clockControls" class="clock-controls">
+            <div id="clockTimePanel" class="clock-control-panel">
+              <p class="clock-panel-copy">把界面留白一点，让你只看见时间本身。</p>
+            </div>
+
+            <div id="clockCountdownPanel" class="clock-control-panel hidden">
+              <label class="clock-input-group">
+                <span>倒计时分钟数</span>
+                <input id="countdownMinutesInput" type="number" min="1" max="180" value="25">
+              </label>
+              <div class="clock-chip-row">
+                <button class="clock-chip" type="button" data-minutes="15">15 分钟</button>
+                <button class="clock-chip" type="button" data-minutes="25">25 分钟</button>
+                <button class="clock-chip" type="button" data-minutes="45">45 分钟</button>
+                <button class="clock-chip" type="button" data-minutes="60">60 分钟</button>
+              </div>
+              <div class="clock-action-row">
+                <button id="countdownStartBtn" class="primary-btn" type="button">开始倒计时</button>
+                <button id="countdownPauseBtn" class="secondary-btn" type="button">暂停</button>
+                <button id="countdownResetBtn" class="ghost-btn ghost-btn-dark" type="button">重置</button>
+              </div>
+            </div>
+
+            <div id="clockStopwatchPanel" class="clock-control-panel hidden">
+              <p class="clock-panel-copy">当你需要沉进一段创作或复习，就让它陪你安静计时。</p>
+              <div class="clock-action-row">
+                <button id="stopwatchStartBtn" class="primary-btn" type="button">开始计时</button>
+                <button id="stopwatchPauseBtn" class="secondary-btn" type="button">暂停</button>
+                <button id="stopwatchResetBtn" class="ghost-btn ghost-btn-dark" type="button">清零</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside id="clockTaskPanel" class="clock-panel clock-task-panel cloud-panel">
+          <div class="panel-head clock-task-head">
+            <div class="panel-head-copy">
+              <h2>当前任务</h2>
+              <p>把眼前这一件事留在静室里，双击卡片就能切换到下一项。</p>
+            </div>
+            <span class="panel-tag">Focus</span>
+          </div>
+          <div
+            id="clockCurrentTaskBoard"
+            class="clock-current-task-board"
+            role="button"
+            tabindex="0"
+            aria-label="双击切换当前任务"
+            title="双击切换当前任务"
+          ></div>
+        </aside>
+      </main>
+    </section>
+  </div>
+
+  <div id="houseDock" class="house-dock hidden">
+    <button id="openThemeStudioBtn" class="house-button" type="button" aria-label="打开主题与精灵设置">
+      <span class="house-icon">
+        <span class="house-roof"></span>
+        <span class="house-body"></span>
+        <span class="house-door"></span>
+      </span>
+      <span class="house-copy">
+        <strong>织梦小屋</strong>
+        <small>主题 / 精灵 / 卡片</small>
+      </span>
+    </button>
+  </div>
+
+  <div id="ambientAudioDock" class="ambient-audio-dock hidden">
+    <button id="ambientAudioButton" class="ambient-audio-button" type="button" aria-label="单击开关音效，双击切换声音" title="单击开关音效，双击切换声音">
+      <span class="ambient-audio-icon" aria-hidden="true">
+        <span class="ambient-audio-icon-core"></span>
+        <span class="ambient-audio-icon-wave ambient-audio-icon-wave-a"></span>
+        <span class="ambient-audio-icon-wave ambient-audio-icon-wave-b"></span>
+      </span>
+      <span id="ambientAudioLabel" class="ambient-audio-label">雨声</span>
+    </button>
+  </div>
+
+  <aside id="themeStudio" class="theme-studio hidden" aria-hidden="true">
+    <div class="theme-studio-header">
+      <div>
+        <p class="eyebrow">自定义空间</p>
+        <h2>织梦小屋</h2>
+      </div>
+    </div>
+
+    <section class="studio-section">
+      <div class="studio-section-head">
+        <h3>主题风格</h3>
+        <p>切换转场、背景和标题气质，先保留你喜欢的整体氛围。</p>
+      </div>
+      <div id="themeOptionList" class="theme-option-list"></div>
+    </section>
+
+    <section class="studio-section">
+      <div class="studio-section-head">
+        <h3>IP 精灵</h3>
+        <p>右下角入口和聊天头像会一起更换，让陪伴感更统一。</p>
+      </div>
+      <div id="companionOptionList" class="companion-option-list"></div>
+    </section>
+
+    <section class="studio-section">
+      <div class="studio-section-head">
+        <h3>任务框默认底色</h3>
+        <p>双击今日日程卡片还能单独修改颜色，这里先设置默认基调。</p>
+      </div>
+      <div id="defaultTaskColorList" class="color-swatch-list"></div>
+    </section>
+  </aside>
+
+  <div id="taskColorPicker" class="task-color-picker hidden" aria-hidden="true">
+    <div class="task-color-picker-card">
+      <div class="theme-studio-header task-color-picker-head">
+        <div>
+          <p class="eyebrow">卡片颜色</p>
+          <h2>任务框换色</h2>
+        </div>
+        <button id="closeTaskColorPickerBtn" class="ghost-btn ghost-btn-dark" type="button">关闭</button>
+      </div>
+      <p id="taskColorPickerTitle" class="task-color-picker-title">为这张卡片选一个底色。</p>
+      <div id="taskColorOptionList" class="color-swatch-list"></div>
+    </div>
+  </div>
+
+  <div id="companionDock" class="companion-dock hidden state-guiding">
+    <div class="companion-hint">
+      <span id="companionHintLabel" class="companion-hint-label">守星人引路</span>
+      <strong id="companionHintTitle">点我进入 AI 拆解</strong>
+      <small id="companionHintBody">把目标说出来，我会陪你一起编织计划。</small>
+    </div>
+    <button id="openPlannerBtn" class="companion-action" type="button" aria-label="打开守星人 AI 助手">
+      <span class="companion-orbit"></span>
+      <img id="companionFigure" class="companion-image" src="ip形象1.jpg" alt="守星人">
+    </button>
+  </div>
+
+  <script src="app.js?v=20260522af"></script>
+</body>
+</html>

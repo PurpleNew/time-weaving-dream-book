@@ -1,0 +1,15 @@
+.env
+.env.local
+node_modules/
+data/
+*.log
+~$*.docx
+tmp_*.png
+planner_eval*.js
+project_entry_*.md
+training_*.md
+model_training_entry.md
+creator_platform_training_pack_*.md
+evidence_based_learning_training_pack_*.md
+submit_guide.md
+选题要求.docx
