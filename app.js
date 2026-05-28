@@ -1071,11 +1071,11 @@ function playIntro() {
   }, INTRO_DURATION + 900);
 }
 
-function getAmbientSoundById(soundId) {
+function legacyGetAmbientSoundByIdV1(soundId) {
   return AMBIENT_SOUND_OPTIONS.find((item) => item.id === soundId) || AMBIENT_SOUND_OPTIONS[0];
 }
 
-function initializeAmbientAudio() {
+function legacyInitializeAmbientAudioV1() {
   const saved = loadJson(STORAGE_KEYS.ambientAudio, null);
   ambientSoundId = getAmbientSoundById(saved?.soundId).id;
   ambientAudioEnabled = false;
@@ -1090,7 +1090,7 @@ function initializeAmbientAudio() {
   updateAmbientAudioButton();
 }
 
-function saveAmbientAudioState() {
+function legacySaveAmbientAudioStateV1() {
   saveJson(STORAGE_KEYS.ambientAudio, {
     soundId: ambientSoundId,
     enabled: ambientAudioEnabled
@@ -1113,7 +1113,7 @@ function applyAmbientAudioSource() {
   }
 }
 
-async function playAmbientAudio() {
+async function legacyPlayAmbientAudioV1() {
   if (!ambientAudio) {
     return;
   }
@@ -1128,7 +1128,7 @@ async function playAmbientAudio() {
   }
 }
 
-function pauseAmbientAudio() {
+function legacyPauseAmbientAudioV1() {
   if (!ambientAudio) {
     return;
   }
@@ -1136,7 +1136,7 @@ function pauseAmbientAudio() {
   ambientAudio.pause();
 }
 
-function toggleAmbientAudio() {
+function legacyToggleAmbientAudioV1() {
   ambientAudioEnabled = !ambientAudioEnabled;
   if (ambientAudioEnabled) {
     playAmbientAudio();
@@ -1147,7 +1147,7 @@ function toggleAmbientAudio() {
   updateAmbientAudioButton();
 }
 
-function cycleAmbientSound() {
+function legacyCycleAmbientSoundV1() {
   const currentIndex = AMBIENT_SOUND_OPTIONS.findIndex((item) => item.id === ambientSoundId);
   const nextSound = AMBIENT_SOUND_OPTIONS[(currentIndex + 1) % AMBIENT_SOUND_OPTIONS.length];
   ambientSoundId = nextSound.id;
@@ -1159,7 +1159,7 @@ function cycleAmbientSound() {
   updateAmbientAudioButton();
 }
 
-function updateAmbientAudioButton() {
+function legacyUpdateAmbientAudioButtonV1() {
   if (!ambientAudioButton || !ambientAudioDock || !ambientAudioLabel) {
     return;
   }
@@ -1562,7 +1562,7 @@ function getSelectedClockTask(data) {
   };
 }
 
-function renderClockCurrentTaskBoard(data = getUserData()) {
+function legacyRenderClockCurrentTaskBoardV1(data = getUserData()) {
   if (!clockCurrentTaskBoard) {
     return;
   }
@@ -2524,7 +2524,7 @@ function normalizeGoal(goal) {
   };
 }
 
-function renderPlanner() {
+function legacyRenderPlannerV1() {
   const data = getUserData();
   const draft = data.plannerDraft;
   const companion = getActiveCompanion();
@@ -2644,7 +2644,7 @@ function buildPresetPlannerResponse(prompt) {
   return null;
 }
 
-function detectPlannerCategory(text) {
+function legacyDetectPlannerCategoryV1(text) {
   const normalized = String(text || "").toLowerCase();
   const score = (groups) => groups.reduce((count, keywords) => count + (hasAny(normalized, keywords) ? 1 : 0), 0);
   const scores = {
@@ -2789,7 +2789,7 @@ function extractPlannerSignals(text, category) {
   };
 }
 
-function buildGuidedQuestions(category, signals) {
+function legacyBuildGuidedQuestionsV1(category, signals) {
   const questions = [];
 
   const push = (question) => {
@@ -2878,7 +2878,7 @@ function shouldUseGuidedQuestioning(category, signals) {
   return !(signals.deliverableKnown && signals.deadlineKnown && signals.progressKnown && signals.timeBudgetKnown);
 }
 
-function buildGuidedPlannerResponse(prompt, history) {
+function legacyBuildGuidedPlannerResponseV1(prompt, history) {
   const conversationText = buildPlannerConversationText(history, prompt);
   const category = detectPlannerCategory(conversationText);
   const signals = extractPlannerSignals(conversationText, category);
@@ -2962,7 +2962,7 @@ function renderPlanner() {
   plannerChatList.scrollTop = plannerChatList.scrollHeight;
 }
 
-async function handlePlannerSubmitWithAttachments(event) {
+async function legacyHandlePlannerSubmitWithAttachmentsV1(event) {
   event.preventDefault();
 
   const prompt = plannerInput.value.trim();
@@ -3026,7 +3026,7 @@ async function handlePlannerSubmitWithAttachments(event) {
   }
 }
 
-async function handlePlannerSubmitWithAttachments(event) {
+async function legacyHandlePlannerSubmitWithAttachmentsV2(event) {
   event.preventDefault();
 
   const prompt = plannerInput.value.trim();
@@ -3122,7 +3122,7 @@ function formatAttachmentBytes(size) {
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function getPlannerAttachmentBadge(attachment) {
+function legacyGetPlannerAttachmentBadgeV1(attachment) {
   if (attachment.kind === "image") {
     return "图片";
   }
@@ -3298,7 +3298,7 @@ async function handlePlannerAttachmentSelection(event) {
   renderPlannerAttachmentList();
 }
 
-function buildPlannerAttachmentSummary(attachments) {
+function legacyBuildPlannerAttachmentSummaryV1(attachments) {
   if (!attachments.length) {
     return "";
   }
@@ -3581,7 +3581,7 @@ async function refineCurrentDraft() {
   }
 }
 
-function buildDraftFromPrompt(prompt, detailed) {
+function legacyBuildDraftFromPromptV1(prompt, detailed) {
   return {
     title: inferTitle(prompt),
     deadline: inferDeadline(prompt),
@@ -3793,7 +3793,7 @@ function splitTaskFurther(task) {
   return [task];
 }
 
-function buildSuggestions(data) {
+function legacyBuildSuggestionsV1(data) {
   const suggestions = [];
 
   data.goals.forEach((goal) => {
@@ -3845,7 +3845,7 @@ function normalizeScheduleItem(item, defaultTaskColorId) {
   };
 }
 
-function normalizeUserData(data, username) {
+function legacyNormalizeUserDataV1(data, username) {
   const base = data || createInitialDashboardData(username);
   const preferences = normalizePreferences(base.preferences);
   const schedule = Array.isArray(base.schedule)
@@ -4299,7 +4299,7 @@ function syncCompanionForCurrentView() {
   updateCompanionState("guiding");
 }
 
-function updateCompanionState(state) {
+function legacyUpdateCompanionStateV1(state) {
   const companion = getActiveCompanion();
   const companionImages = companion.images;
   companionDock.classList.remove("state-guiding", "state-listening", "state-thinking", "state-speaking");
@@ -4793,7 +4793,7 @@ function buildGuidedPlannerResponse(prompt, history) {
   };
 }
 
-function buildPlannerFallbackNotice(error) {
+function legacyBuildPlannerFallbackNoticeV1(error) {
   const message = error instanceof Error ? error.message : "";
   if (/invalid character|non-json|unexpected token|json|upstream/iu.test(message)) {
     return "真实模型连接暂时异常，我先用本地规则继续，避免流程中断。";
@@ -4802,7 +4802,7 @@ function buildPlannerFallbackNotice(error) {
   return "真实模型暂时不可用，我先用本地规则继续，避免流程中断。";
 }
 
-async function handlePlannerSubmit(event) {
+async function legacyHandlePlannerSubmitV1(event) {
   event.preventDefault();
 
   const prompt = plannerInput.value.trim();
