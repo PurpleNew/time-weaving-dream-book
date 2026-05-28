@@ -1,24 +1,30 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "outputDirectory": ".",
+  "version": 2,
   "functions": {
     "api/**/*.js": {
       "maxDuration": 60
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/planner/status",
-      "destination": "/api/planner/status"
+      "src": "/api/planner/status",
+      "dest": "/api/planner/status.js"
     },
     {
-      "source": "/api/planner",
-      "destination": "/api/planner"
+      "src": "/api/planner",
+      "dest": "/api/planner.js"
     },
     {
-      "source": "/",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
