@@ -1,88 +1,47 @@
-# Time Dreambook
+# Time Weaving Dream Book
 
-一个基于 `Node.js` 的单体应用：
-- `server.js` 同时提供网页静态资源和 `/api/planner` 接口
-- 前端页面由 `index.html`、`app.js`、`styles.css` 构成
-- AI 对话支持文本、图片，以及小体积的 `PDF/DOCX/TXT/MD/JSON/CSV` 附件
+## 项目简介
 
-## 本地运行
+Time Weaving Dream Book 是一个面向大学生学习与项目管理场景的 AI 时间规划应用。  
+用户可以通过自然语言与 AI 对话，把模糊目标拆解成可执行的阶段计划，并在同一界面中管理日程、长期目标和专注任务。
 
-1. 安装 Node.js 20。
-2. 复制环境变量模板：
+## 功能介绍
 
-```bash
-copy .env.example .env.local
-```
+- AI 对话式目标拆解：输入一句自然语言目标，生成阶段性计划和任务草案
+- 今日日程管理：查看当天待办与推荐优先事项
+- 长线目标看板：展示长期目标、阶段任务与推进进度
+- 多主题视觉界面：支持不同风格主题与陪伴形象切换
+- 专注时钟：提供当前时间、倒计时和正计时功能
+- 附件辅助对话：支持在 AI 对话中传入图片和文件
+- 文档支持：当前支持 `PDF`、`DOCX`、`TXT`、`MD`、`JSON`、`CSV`
 
-3. 在 `.env.local` 里填写：
+## 技术栈
 
-```env
-OPENAI_API_KEY=你的Key
-OPENAI_MODEL=gpt-5.4
-OPENAI_BASE_URL=你的兼容接口地址
-```
+- 前端：`HTML`、`CSS`、原生 `JavaScript`
+- 后端：`Node.js`、原生 `JavaScript`
+- 服务方式：单体应用，`server.js` 同时提供静态页面和接口
 
-4. 启动：
+## 核心页面
 
-```bash
-npm start
-```
+- 登录/注册页：进入个人空间
+- 首页看板：查看今日日程、AI 推荐和长期目标
+- AI 规划页：与 AI 对话生成计划草案
+- 专注时钟页：进行计时与沉浸式专注
 
-5. 打开 `http://127.0.0.1:3000/`
-
-## 今天上线的最短路径
-
-推荐：`GitHub + Render`
-
-### 1. 建 GitHub 仓库
-
-- 仓库名建议：`time-dreambook`
-- 先设为 `Private`
-- 创建空仓库时不要勾选 `README`、`.gitignore`、`License`
-
-### 2. 推送本地项目
-
-```bash
-git init -b main
-git add .
-git commit -m "Prepare cloud deployment"
-git remote add origin 你的仓库地址
-git push -u origin main
-```
-
-### 3. 在 Render 部署
-
-1. 登录 Render
-2. `New` -> `Blueprint`
-3. 选择这个 GitHub 仓库
-4. Render 会读取仓库里的 `render.yaml`
-5. 在环境变量页面填写：
-   - `OPENAI_API_KEY`
-   - `OPENAI_MODEL`
-   - `OPENAI_BASE_URL`
-6. 点击部署
-
-部署完成后，Render 会给你一个公网网址，别人直接打开就能用。
-
-## 需要特别注意
-
-- `.env.local` 不能上传到 GitHub
-- 你当前本地目录里已经存在真实 API Key，公开仓库前建议立刻更换这个 Key
-- 当前附件功能更适合比赛演示和轻量使用，建议单个附件控制在 4 MB 内
-- 如果你的兼容接口不支持 OpenAI Responses API，那么图片之外的附件能力可能受限
-
-## 建议上传到仓库的核心文件
+## 项目结构
 
 ```text
-server.js
-package.json
-index.html
-app.js
-styles.css
-.env.example
-.gitignore
-render.yaml
-README.md
-assets/
-页面实际引用到的图片目录
+server.js      后端入口，提供静态资源与 API
+index.html     页面结构
+app.js         前端交互逻辑
+styles.css     页面样式
+package.json   项目配置
+render.yaml    部署配置
 ```
+
+## 适用场景
+
+- 比赛项目演示
+- 学习计划制定
+- 考试复习安排
+- 课程任务与长期目标管理
